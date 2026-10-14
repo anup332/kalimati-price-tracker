@@ -1,268 +1,99 @@
 # Kalimati Food Price & Inflation Tracker
 
-An end-to-end **food price analytics and inflation tracking platform** built using wholesale market data from the **Kalimati Fruits and Vegetable Market Development Board, Nepal**.
+An end-to-end data analytics project that collects, cleans, stores, analyzes, and visualizes wholesale food-price data published by Kalimati Fruits and Vegetable Market, Nepal.
 
-The project collects daily commodity prices, stores and processes the data, performs SQL and Python-based analysis, calculates price indices, identifies commodity-level trends and volatility, and presents insights through an interactive **Power BI dashboard**.
+The project uses Python, Pandas, NumPy, SQLite, SQL, Matplotlib, Seaborn, and Power BI to explore food-price patterns from January 1 to July 31, 2026.
 
----
+> **Important:** The selected-basket index in this project is an analytical indicator based on selected commodities. It is not Nepal's official Consumer Price Index (CPI) or an official inflation rate.
 
-## Project Overview
+## Project Objectives
 
-Food prices can change significantly over time due to seasonality, supply conditions, demand, weather, transportation costs, and market conditions.
+- Collect historical wholesale food-price data from the Kalimati Market website.
+- Clean and prepare data for analysis.
+- Explore price distributions, data quality, and commodity-level patterns.
+- Compare monthly average prices and selected-basket price movements.
+- Identify commodities with notable observed price changes.
+- Present findings through Python visualizations, CSV reports, and a Power BI dashboard.
 
-This project transforms daily wholesale market price data into an analytical dataset that can be used to answer questions such as:
+## Dataset Overview
 
-* How are food prices changing over time?
-* Which commodities are consistently expensive or inexpensive?
-* Which commodities experience the highest price volatility?
-* Which commodities are driving changes in the overall price index?
-* How does the market-level food price index change over time?
-* Which commodities have experienced the largest price increases or decreases?
+| Metric | Value |
+|---|---:|
+| Data period | Jan 1 – Jul 31, 2026 |
+| Price records | 21,095 |
+| Unique commodities | 136 |
+| Overall mean recorded average price | Rs. 142.97 |
 
----
+The mean is calculated from the recorded `avg` prices across the dataset. Since commodities can use different units, it should not be interpreted as the average cost of a standard food basket.
 
-## Key Results
+## Technology Stack
 
-Analysis of the collected dataset produced:
+- **Programming:** Python
+- **Data manipulation:** Pandas, NumPy
+- **Data collection:** Requests, BeautifulSoup
+- **Database:** SQLite, SQL
+- **Visualization:** Matplotlib, Seaborn
+- **Dashboard:** Microsoft Power BI
+- **Development tools:** Jupyter Notebook, VS Code, Git, GitHub
 
-| Metric                                    |                    Result |
-| ----------------------------------------- | ------------------------: |
-| Data period                               | January 1 – July 31, 2026 |
-| Total records                             |                    21,095 |
-| Unique commodities                        |                       136 |
-| Overall average price                     |                    142.97 |
-| Most expensive commodity by average price |              सिताके च्याउ |
-| Average price of most expensive commodity |                    899.42 |
-| Lowest average-price commodity            |           मूला सेतो(लोकल) |
-| Lowest average price                      |                     15.54 |
+## Workflow
 
-The project also generates analytical reports covering:
+1. **Data collection:** Retrieve historical price data from the Kalimati Market website.
+2. **Data cleaning:** Standardize data types, parse dates, inspect missing values, check duplicates, and investigate inconsistent or unusual price records.
+3. **Database storage:** Store structured price records in SQLite.
+4. **Exploratory data analysis:** Examine descriptive statistics, commodity coverage, and price distributions.
+5. **Feature engineering:** Derive monthly summaries and a selected-basket price index.
+6. **Trend analysis:** Compare monthly commodity prices and identify observed price increases and decreases.
+7. **Reporting:** Export summary tables and analytical reports.
+8. **Visualization:** Present results in Python charts and a three-page Power BI dashboard.
 
-* Daily market trends
-* Commodity-level summaries
-* Price changes
-* Commodity volatility
-* Market-level price index
-* Basket/index calculations
+## Key Analysis
 
----
+The final notebook, `mainanalysis.ipynb`, contains the data-quality checks, exploratory analysis, monthly summaries, selected-basket index, and price-trend visualizations.
 
-## Data Pipeline
+The analysis explores:
 
-```text
-Kalimati Market Website
-          │
-          ▼
-    Web Scraping
-  Requests + BeautifulSoup
-          │
-          ▼
-     Raw CSV Data
-          │
-          ▼
-     Data Cleaning
-   Python / Pandas
-          │
-          ▼
-      SQLite Database
-          │
-          ▼
-     SQL Analysis
-          │
-          ▼
-  Python Analytics Layer
- Pandas / NumPy / Statistics
-          │
-          ▼
- Price Index & Inflation Analysis
-          │
-          ▼
-   Analytical CSV Reports
-          │
-          ▼
-      Power BI Dashboard
-```
+- Dataset structure, descriptive statistics, and missing values
+- Duplicate records and potentially inconsistent prices
+- Commodity coverage over time
+- Daily selected-basket price movements
+- Monthly average prices and highest-priced commodities
+- Monthly price patterns for selected commodities
+- Potential outliers for further investigation
+- Percentage changes between the first and last available monthly average prices for each commodity
 
----
+## Power BI Dashboard
 
-## Features
+The Power BI dashboard contains three pages:
 
-### 1. Automated Web Scraping
+1. **Market Overview** — high-level market metrics and price trends
+2. **Commodity Price Analysis** — comparisons across commodities
+3. **Seasonal & Market Insights** — monthly patterns and market observations
 
-The scraper collects daily wholesale commodity prices from the Kalimati market website.
+The dashboard file is available in the `dashboard/` directory, if included in the repository.
 
-Technologies:
-
-* Python
-* Requests
-* BeautifulSoup
-* HTTP POST requests
-* CSRF token handling
-
-The scraper handles the website's CSRF protection by first retrieving the required token before submitting the data request.
-
----
-
-### 2. Data Cleaning & Transformation
-
-Raw price data is cleaned and transformed into analysis-ready datasets.
-
-Processing includes:
-
-* Converting Nepali numeric characters into usable numerical values
-* Cleaning currency-formatted price strings
-* Handling missing values
-* Standardizing commodity records
-* Combining daily datasets
-* Preparing data for database storage and analysis
-
----
-
-### 3. SQLite Database
-
-The project uses SQLite to store structured market data.
-
-The database layer separates data storage from the analytical workflow and allows SQL queries to be performed directly on the collected market data.
-
-The SQLite database itself is excluded from the GitHub repository because the underlying CSV datasets already provide reproducible source data.
-
----
-
-### 4. SQL Analytics
-
-The project includes a dedicated `sql_queries.sql` file containing analytical queries.
-
-The SQL analysis covers areas such as:
-
-* Aggregations
-* Commodity-level statistics
-* Price comparisons
-* Grouping and filtering
-* Market trends
-* Ranking commodities
-* Price changes
-* Analytical summaries
-
----
-
-### 5. Price & Inflation Analysis
-
-A market basket/index approach is used to track changes in overall food prices.
-
-The analysis produces:
-
-* Basket index
-* Market-level price index
-* Daily market trends
-* Commodity-level price changes
-* Price volatility
-* Summary statistics
-
-The index allows the project to represent changes in the overall price level rather than focusing only on individual commodities.
-
----
-
-### 6. Analytical Reports
-
-The `reports/` directory contains processed analytical outputs:
-
-```text
-reports/
-├── basket_index.csv
-├── commodity_summary.csv
-├── daily_market_trend.csv
-├── market_summary.csv
-├── price_change_report.csv
-└── volatility_report.csv
-```
-
-These outputs can be consumed directly by visualization and business intelligence tools.
-
----
-
-### 7. Power BI Dashboard
-
-The processed data is used to build an interactive Power BI dashboard for exploring:
-
-* Market price trends
-* Food price index
-* Commodity prices
-* Price changes
-* Commodity comparisons
-* Market-level indicators
-
-The dashboard is designed to provide a business-friendly view of the underlying analytical pipeline.
-
----
-
-## Project Structure
+## Repository Structure
 
 ```text
 kalimati-price-tracker/
-│
+├── dashboard/
 ├── data/
-│   ├── 2026-01-01.csv
-│   ├── 2026-01-02.csv
-│   ├── ...
-│   ├── 2026-07-31.csv
-│   └── kalimati_prices.csv
-│
 ├── reports/
-│   ├── basket_index.csv
-│   ├── commodity_summary.csv
-│   ├── daily_market_trend.csv
-│   ├── market_summary.csv
-│   ├── price_change_report.csv
-│   └── volatility_report.csv
-│
+├── mainanalysis.ipynb
 ├── analysis.ipynb
-├── analyze.py
-├── database.py
-├── load.py
-├── report.py
 ├── scrape.py
-├── sql_queries.sql
+├── load.py
+├── database.py
+├── analyze.py
+├── report.py
 ├── utils.py
+├── sql_queries.sql
 ├── requirements.txt
-├── README.md
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
----
-
-## Technologies Used
-
-### Programming & Analysis
-
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-
-### Database
-
-* SQLite
-* SQL
-
-### Web Scraping
-
-* Requests
-* BeautifulSoup
-
-### Visualization & BI
-
-* Power BI
-* Matplotlib
-* Seaborn
-
-### Development
-
-* Jupyter Notebook
-* VS Code
-* Git & GitHub
-
----
+Remove any filenames from this tree that are not actually present in the repository. If `mainanalysis.ipynb` replaces `analysis.ipynb`, you can remove the old notebook and its entry from this list.
 
 ## How to Run
 
@@ -273,66 +104,64 @@ git clone https://github.com/anup332/kalimati-price-tracker.git
 cd kalimati-price-tracker
 ```
 
-### 2. Create a virtual environment
+### 2. Create and activate a virtual environment
 
-```bash
+Windows PowerShell:
+
+```powershell
 python -m venv venv
-```
-
-Activate it on Windows:
-
-```bash
-venv\Scripts\activate
+.\venv\Scripts\Activate.ps1
 ```
 
 ### 3. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### 4. Run the analysis
 
-The main analysis can be explored through:
+Open `mainanalysis.ipynb` in VS Code or Jupyter Notebook and run the cells in order.
 
-```text
-analysis.ipynb
-```
+The notebook expects the SQLite database and its `prices` table to be available at the configured path. Follow the project's data-collection and database-loading scripts if the database has not been created locally.
 
-Individual Python scripts are also provided for the different stages of the pipeline.
+## Reports and Outputs
 
----
+The `reports/` directory may contain outputs such as:
 
-## Data Source
+- `basket_index.csv`
+- `commodity_summary.csv`
+- `daily_market_trend.csv`
+- `market_summary.csv`
+- `price_change_report.csv`
+- `volatility_report.csv`
 
-The project uses publicly available wholesale market price information published by the **Kalimati Fruits and Vegetable Market Development Board, Nepal**.
+Check the actual filenames in your repository and update this list if necessary.
 
-The collected dataset covers:
+## Limitations
 
-**January 1, 2026 – July 31, 2026**
-
----
+- The analysis covers only January–July 2026 and does not establish year-over-year trends.
+- Published wholesale prices may differ from retail prices and prices in other markets.
+- The selected-basket index is not an official CPI or inflation measure.
+- Raw prices across commodities may use different units and are not always directly comparable.
+- Missing observations and unusual prices can affect the analysis.
+- Observed price movements do not establish their causes.
 
 ## Future Improvements
 
-Potential extensions include:
-
-* Automating daily data collection
-* Scheduling the pipeline using a workflow orchestrator
-* Adding a cloud database
-* Building an automated ETL pipeline
-* Adding month-over-month and year-over-year inflation measures
-* Incorporating external factors such as rainfall and fuel prices
-* Adding anomaly detection for unusual commodity price movements
-* Deploying the dashboard as a web application
-* Expanding the dataset to multiple years for stronger inflation analysis
-
----
+- Automate regular data collection.
+- Extend the dataset to multiple years.
+- Add month-over-month and year-over-year comparisons when enough data is available.
+- Investigate relationships with rainfall, fuel prices, and other relevant factors.
+- Add anomaly detection and a web-based reporting interface.
 
 ## Author
 
-**Anup Aryal**
+**Anup Aryal**  
+BSc CSIT | Data Analytics
 
-BSc CSIT | Data Analytics | Python | SQL | Power BI
+GitHub: [anup332](https://github.com/anup332)
 
-GitHub: [@anup332](https://github.com/anup332)
+---
+
+*This project was developed for learning and portfolio purposes using publicly available market-price data.*
